@@ -33,6 +33,11 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Local SQLite data (safety)
+*.db
+*.db-shm
+*.db-wal
+
 # Symbolication related
 app.*.symbols
 

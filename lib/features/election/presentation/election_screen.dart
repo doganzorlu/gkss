@@ -51,7 +51,7 @@ class _ElectionScreenState extends State<ElectionScreen> {
           _titleController.text = snapshot.title;
         }
 
-        final standings = buildStandings(snapshot);
+        final standings = _buildDisplayStandings(snapshot);
         const appBarTitleFontSize = 38.0;
         const appBarLogoHeight = appBarTitleFontSize * (8 / 3);
         final appBarToolbarHeight = (appBarLogoHeight + 10.0).clamp(
@@ -218,6 +218,21 @@ class _ElectionScreenState extends State<ElectionScreen> {
         ),
       ),
     );
+  }
+
+  List<CandidateStanding> _buildDisplayStandings(ElectionSnapshot snapshot) {
+    if (snapshot.status == ElectionStatus.finalized) {
+      return buildStandings(snapshot);
+    }
+
+    return snapshot.candidates
+        .map(
+          (candidate) => CandidateStanding(
+            candidate: candidate,
+            votes: snapshot.countsByCandidate[candidate.id] ?? 0,
+          ),
+        )
+        .toList();
   }
 
   Widget _buildCandidateListCard(
